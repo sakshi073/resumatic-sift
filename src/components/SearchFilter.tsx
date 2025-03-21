@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,8 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ resumes, setFilteredResumes
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [minCGPA, setMinCGPA] = useState('');
+  const [skillSearchTerm, setSkillSearchTerm] = useState('');
+  const [filteredSkills, setFilteredSkills] = useState<string[]>([]);
   
   // Extract all unique skills from resumes
   const allSkills = Array.from(
@@ -26,6 +28,20 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ resumes, setFilteredResumes
       resumes.flatMap(resume => resume.skills)
     )
   ).sort();
+
+  // Filter skills based on search term
+  useEffect(() => {
+    if (skillSearchTerm.trim() === '') {
+      setFilteredSkills(allSkills);
+    } else {
+      const term = skillSearchTerm.toLowerCase().trim();
+      setFilteredSkills(
+        allSkills.filter(skill => 
+          skill.toLowerCase().includes(term)
+        )
+      );
+    }
+  }, [skillSearchTerm, allSkills]);
 
   const handleSearch = () => {
     let filtered = [...resumes];
@@ -38,6 +54,8 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ resumes, setFilteredResumes
         resume.college.toLowerCase().includes(term) ||
         resume.email.toLowerCase().includes(term) ||
         resume.degree.toLowerCase().includes(term) ||
+        // Explicitly search in skills
+        resume.skills.some(skill => skill.toLowerCase().includes(term)) ||
         resume.experience.some(exp => 
           exp.company.toLowerCase().includes(term) || 
           exp.position.toLowerCase().includes(term)
@@ -75,6 +93,7 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ resumes, setFilteredResumes
     setSearchTerm('');
     setSelectedSkills([]);
     setMinCGPA('');
+    setSkillSearchTerm('');
     setFilteredResumes(resumes);
   };
   
@@ -136,22 +155,34 @@ const SearchFilter: React.FC<SearchFilterProps> = ({ resumes, setFilteredResumes
                 
                 <div className="space-y-2">
                   <Label>Skills (select multiple)</Label>
+                  <Input
+                    placeholder="Search skills..."
+                    value={skillSearchTerm}
+                    onChange={(e) => setSkillSearchTerm(e.target.value)}
+                    className="mb-2"
+                  />
                   <div className="h-40 overflow-y-auto border rounded-md p-2">
-                    {allSkills.map(skill => (
-                      <div key={skill} className="flex items-center space-x-2 py-1">
-                        <Checkbox
-                          id={`skill-${skill}`}
-                          checked={selectedSkills.includes(skill)}
-                          onCheckedChange={() => toggleSkill(skill)}
-                        />
-                        <label
-                          htmlFor={`skill-${skill}`}
-                          className="text-sm cursor-pointer flex-grow"
-                        >
-                          {skill}
-                        </label>
+                    {filteredSkills.length > 0 ? (
+                      filteredSkills.map(skill => (
+                        <div key={skill} className="flex items-center space-x-2 py-1">
+                          <Checkbox
+                            id={`skill-${skill}`}
+                            checked={selectedSkills.includes(skill)}
+                            onCheckedChange={() => toggleSkill(skill)}
+                          />
+                          <label
+                            htmlFor={`skill-${skill}`}
+                            className="text-sm cursor-pointer flex-grow"
+                          >
+                            {skill}
+                          </label>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-muted-foreground py-2">
+                        No skills match your search
                       </div>
-                    ))}
+                    )}
                   </div>
                 </div>
                 

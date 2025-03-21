@@ -71,6 +71,8 @@ def search_resumes():
                 search_term in resume['college'].lower() or
                 search_term in resume['email'].lower() or
                 search_term in resume['degree'].lower() or
+                # Search in skills explicitly
+                any(search_term in skill.lower() for skill in resume['skills']) or
                 any(search_term in exp['company'].lower() or search_term in exp['position'].lower() 
                     for exp in resume['experience']) or
                 any(search_term in proj['name'].lower() or search_term in proj['description'].lower() 
@@ -99,9 +101,13 @@ def search_resumes():
 
 @app.route('/export', methods=['POST'])
 def export_resumes():
-    data = request.get_json()
-    format_type = data.get('format', 'csv')
-    resumes_to_export = data.get('resumes', resumes_data)
+    export_format = request.form.get('format', 'csv')
+    resumes_json = request.form.get('resumes', '[]')
+    
+    try:
+        resumes_to_export = json.loads(resumes_json)
+    except json.JSONDecodeError:
+        resumes_to_export = resumes_data
     
     if not resumes_to_export:
         return jsonify({'error': 'No resumes to export'}), 400
@@ -126,7 +132,7 @@ def export_resumes():
     df = pd.DataFrame(rows)
     
     # Export to requested format
-    if format_type == 'csv':
+    if export_format == 'csv':
         export_path = 'exports/resume_data.csv'
         os.makedirs('exports', exist_ok=True)
         df.to_csv(export_path, index=False)

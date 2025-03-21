@@ -579,9 +579,10 @@ async function exportResumes(format) {
     }
 }
 
-// Initialize skill-related events
+// Enhanced skills-related event handling
 document.addEventListener('click', function(e) {
-    if (e.target.matches('.skill-badge') && !e.target.matches('.remove-skill')) {
+    // Handle skill badge clicks
+    if (e.target.classList.contains('badge-skill')) {
         const skillText = e.target.textContent.trim();
         
         // Check if not already in the selected skills
@@ -592,6 +593,37 @@ document.addEventListener('click', function(e) {
             performSearch();
         }
     }
+});
+
+// Add search input for skills list
+// Adding search functionality to filter skills in the skills list dropdown
+const skillsListWrapper = document.createElement('div');
+skillsListWrapper.className = 'mb-2';
+skillsListWrapper.innerHTML = `
+    <input type="text" class="form-control form-control-sm" 
+           id="skillsSearch" placeholder="Search skills...">
+`;
+
+// Insert the search input before the skills list
+if (skillsList.parentNode) {
+    skillsList.parentNode.insertBefore(skillsListWrapper, skillsList);
+}
+
+// Add event listener to filter skills as user types
+document.getElementById('skillsSearch').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const skillCheckboxes = skillsList.querySelectorAll('.form-check');
+    
+    skillCheckboxes.forEach(checkboxDiv => {
+        const label = checkboxDiv.querySelector('label');
+        const skillName = label.textContent.toLowerCase();
+        
+        if (skillName.includes(searchTerm)) {
+            checkboxDiv.style.display = '';
+        } else {
+            checkboxDiv.style.display = 'none';
+        }
+    });
 });
 
 // Function to fetch and display existing resumes on page load
