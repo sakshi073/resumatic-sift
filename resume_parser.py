@@ -72,7 +72,7 @@ mock_degrees = [
     "MBA", "B.S. Business Administration", "M.S. Finance", "B.A. Economics"
 ]
 
-# Expanded list of technical skills including programming languages, frameworks, and cloud platforms
+# Only keeping technical skills, removing all other categories
 mock_skills = [
     # Programming Languages
     "Python", "Java", "JavaScript", "C++", "C#", "Ruby", "PHP", "Go", "Swift", "Kotlin", 
@@ -108,13 +108,7 @@ mock_skills = [
     # Other Technical Skills
     "Microservices", "RESTful APIs", "SOAP", "Agile Methodology", "Scrum", "Test-Driven Development",
     "Continuous Integration", "Continuous Deployment", "Unit Testing", "Load Testing",
-    "Blockchain", "Cybersecurity", "Network Security", "Ethical Hacking", "Linux",
-    
-    # Business & Soft Skills
-    "Project Management", "Market Analysis", "Financial Modeling", "Data Analysis",
-    "Strategic Planning", "Team Leadership", "Client Relations", "Public Speaking",
-    "Sales", "Marketing", "Content Strategy", "SEO", "Social Media Marketing",
-    "Business Development", "Negotiation", "CRM", "Microsoft Excel", "PowerPoint"
+    "Blockchain", "Cybersecurity", "Network Security", "Ethical Hacking", "Linux"
 ]
 
 mock_companies = [
@@ -143,7 +137,7 @@ mock_project_types = [
     "Chat Application", "Game", "Learning Management System"
 ]
 
-# Updated certifications to include more technical certifications
+# Updated certifications list to keep only technical certifications
 mock_certifications = [
     # Cloud & DevOps Certifications
     "AWS Certified Solutions Architect", "AWS Certified Developer", "AWS Certified DevOps Engineer",
@@ -165,16 +159,5 @@ mock_certifications = [
     # Security Certifications
     "CompTIA Security+", "Certified Information Systems Security Professional (CISSP)",
     "Certified Ethical Hacker (CEH)", "Offensive Security Certified Professional (OSCP)",
-    "Certified Information Security Manager (CISM)", "Cisco CCNA Security",
-    
-    # Project Management & Methodologies
-    "Project Management Professional (PMP)", "Professional Scrum Master (PSM)",
-    "PRINCE2 Certification", "Certified ScrumMaster (CSM)", "Agile Certified Practitioner",
-    "Six Sigma Black Belt", "ITIL Foundation Certification",
-    
-    # Business Certifications
-    "Chartered Financial Analyst (CFA)", "Society for Human Resource Management (SHRM)",
-    "Certified Public Accountant (CPA)", "Certified Marketing Professional",
-    "Certified Business Analysis Professional (CBAP)"
+    "Certified Information Security Manager (CISM)", "Cisco CCNA Security"
 ]
-

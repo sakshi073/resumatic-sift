@@ -1,4 +1,3 @@
-
 // Resume parsing utility functions
 
 export interface Resume {
@@ -37,11 +36,7 @@ export const extractResumeData = async (file: File): Promise<Resume> => {
       const fileName = file.name;
       const fileId = Math.random().toString(36).substring(2, 9);
       
-      // Determine if this is a technical or business resume based on filename
-      const isTechnical = fileName.toLowerCase().includes('tech') || 
-                          fileName.toLowerCase().includes('dev') ||
-                          fileName.toLowerCase().includes('eng');
-      
+      // All resumes now only include technical skills
       const mockResume: Resume = {
         id: fileId,
         fileName: fileName,
@@ -49,32 +44,21 @@ export const extractResumeData = async (file: File): Promise<Resume> => {
         email: `${fileId}@example.com`,
         phone: `+1 ${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 9000 + 1000)}`,
         college: mockColleges[Math.floor(Math.random() * mockColleges.length)],
-        degree: isTechnical ? 
-                mockTechnicalDegrees[Math.floor(Math.random() * mockTechnicalDegrees.length)] : 
-                mockBusinessDegrees[Math.floor(Math.random() * mockBusinessDegrees.length)],
+        degree: mockTechnicalDegrees[Math.floor(Math.random() * mockTechnicalDegrees.length)],
         cgpa: (Math.random() * 1 + 3).toFixed(2),
-        skills: isTechnical ? 
-                getRandomSubset(mockTechnicalSkills, Math.floor(Math.random() * 6 + 5)) : 
-                getRandomSubset(mockBusinessSkills, Math.floor(Math.random() * 6 + 5)),
+        skills: getRandomSubset(mockTechnicalSkills, Math.floor(Math.random() * 6 + 5)),
         experience: Array(Math.floor(Math.random() * 3 + 1)).fill(null).map(() => ({
           company: mockCompanies[Math.floor(Math.random() * mockCompanies.length)],
-          position: isTechnical ? 
-                    mockTechnicalPositions[Math.floor(Math.random() * mockTechnicalPositions.length)] :
-                    mockBusinessPositions[Math.floor(Math.random() * mockBusinessPositions.length)],
+          position: mockTechnicalPositions[Math.floor(Math.random() * mockTechnicalPositions.length)],
           duration: `${Math.floor(Math.random() * 2 + 1)} years`,
           description: "Responsible for key initiatives and projects."
         })),
         projects: Array(Math.floor(Math.random() * 3 + 1)).fill(null).map(() => ({
           name: `${mockProjectPrefixes[Math.floor(Math.random() * mockProjectPrefixes.length)]} ${mockProjectTypes[Math.floor(Math.random() * mockProjectTypes.length)]}`,
           description: "An innovative project solving real-world problems.",
-          technologies: isTechnical ? 
-                        getRandomSubset(mockTechnicalSkills, Math.floor(Math.random() * 3 + 2)) :
-                        getRandomSubset(mockBusinessSkills, Math.floor(Math.random() * 3 + 2))
+          technologies: getRandomSubset(mockTechnicalSkills, Math.floor(Math.random() * 3 + 2))
         })),
-        certifications: getRandomSubset(
-          isTechnical ? mockTechnicalCertifications : mockBusinessCertifications, 
-          Math.floor(Math.random() * 3)
-        )
+        certifications: getRandomSubset(mockTechnicalCertifications, Math.floor(Math.random() * 3))
       };
       
       resolve(mockResume);
@@ -104,12 +88,7 @@ const mockTechnicalDegrees = [
   "Ph.D. Computer Science", "B.S. Data Science", "M.S. Machine Learning"
 ];
 
-const mockBusinessDegrees = [
-  "MBA", "B.S. Business Administration", "M.S. Finance", "B.A. Economics",
-  "M.S. Marketing", "B.S. Accounting"
-];
-
-// Expanded technical skills list
+// Only keeping technical skills, removed business skills
 const mockTechnicalSkills = [
   // Programming Languages
   "JavaScript", "Python", "Java", "C++", "C#", "Ruby", "PHP", "Go", "Swift", "Kotlin", 
@@ -143,15 +122,6 @@ const mockTechnicalSkills = [
   "CI/CD", "Unit Testing", "Postman", "Microservices", "RESTful APIs"
 ];
 
-const mockBusinessSkills = [
-  "Project Management", "Market Analysis", "Financial Modeling", "Data Analysis",
-  "Strategic Planning", "Team Leadership", "Client Relations", "Public Speaking",
-  "Sales", "Marketing", "Content Strategy", "SEO", "Social Media Marketing",
-  "Business Development", "Negotiation", "CRM", "Microsoft Excel", "PowerPoint",
-  "Tableau", "Power BI", "Agile", "Scrum", "Six Sigma", "Product Management",
-  "Customer Experience", "Brand Management", "Market Research", "Supply Chain Management"
-];
-
 const mockCompanies = [
   "Google", "Microsoft", "Apple", "Amazon", "Meta", "IBM", "Oracle", "Salesforce",
   "Adobe", "Tesla", "Netflix", "Airbnb", "Uber", "Lyft", "Twitter", "Snapchat",
@@ -162,12 +132,6 @@ const mockTechnicalPositions = [
   "Software Engineer", "Frontend Developer", "Backend Developer", "Full Stack Developer",
   "Data Scientist", "Machine Learning Engineer", "DevOps Engineer", "Site Reliability Engineer",
   "Cloud Engineer", "Mobile Developer", "Game Developer", "Embedded Systems Engineer"
-];
-
-const mockBusinessPositions = [
-  "Product Manager", "Project Manager", "Business Analyst", "Marketing Manager",
-  "Financial Analyst", "Data Analyst", "Sales Representative", "Account Executive",
-  "Customer Success Manager", "Human Resources Specialist", "Operations Manager"
 ];
 
 const mockProjectPrefixes = [
@@ -182,7 +146,7 @@ const mockProjectTypes = [
   "Chat Application", "Game", "Learning Management System"
 ];
 
-// Expanded technical certifications list
+// Only keeping technical certifications
 const mockTechnicalCertifications = [
   // Cloud Certifications
   "AWS Certified Solutions Architect", "AWS Certified Developer", "AWS Certified DevOps Engineer",
@@ -206,12 +170,3 @@ const mockTechnicalCertifications = [
   "CompTIA Security+", "Certified Information Systems Security Professional (CISSP)",
   "Certified Ethical Hacker (CEH)", "Cisco CCNA Security"
 ];
-
-const mockBusinessCertifications = [
-  "PMP (Project Management Professional)", "CFA (Chartered Financial Analyst)",
-  "SHRM-CP (Society for Human Resource Management)", "Certified Public Accountant (CPA)",
-  "Certified Marketing Professional", "Agile Certified Practitioner", "Six Sigma Black Belt",
-  "Certified Business Analysis Professional (CBAP)", "Certified Scrum Master",
-  "ITIL Foundation Certification", "Certified Supply Chain Professional"
-];
-
