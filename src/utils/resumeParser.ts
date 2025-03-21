@@ -109,11 +109,38 @@ const mockBusinessDegrees = [
   "M.S. Marketing", "B.S. Accounting"
 ];
 
+// Expanded technical skills list
 const mockTechnicalSkills = [
-  "JavaScript", "Python", "Java", "C++", "React", "Angular", "Vue.js", "Node.js",
-  "Express", "Django", "Flask", "TensorFlow", "PyTorch", "SQL", "MongoDB", "AWS",
-  "Azure", "GCP", "Docker", "Kubernetes", "CI/CD", "Git", "React Native", "Swift",
-  "Kotlin", "Flutter", "TypeScript", "Go", "Rust", "Ruby", "PHP", "Scala"
+  // Programming Languages
+  "JavaScript", "Python", "Java", "C++", "C#", "Ruby", "PHP", "Go", "Swift", "Kotlin", 
+  "TypeScript", "Rust", "R", "Scala", "Perl", "Haskell", "Matlab", "Shell Scripting",
+  
+  // Web Technologies
+  "HTML", "CSS", "SASS/SCSS", "Bootstrap", "Tailwind CSS", "React", "Angular", "Vue.js", 
+  "jQuery", "Node.js", "Express", "Django", "Flask", "Spring Boot", "ASP.NET", 
+  "Ruby on Rails", "Laravel", "WordPress", "Redux", "GraphQL", "REST API", "WebSockets",
+  
+  // Mobile Development
+  "React Native", "Flutter", "Xamarin", "Android Development", "iOS Development", 
+  "Kotlin Multiplatform", "Swift UI", "Jetpack Compose",
+  
+  // Database Technologies
+  "SQL", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Oracle Database", "Redis", 
+  "Microsoft SQL Server", "Cassandra", "DynamoDB", "ElasticSearch", "Firebase",
+  
+  // Cloud & DevOps
+  "AWS", "Microsoft Azure", "Google Cloud Platform (GCP)", "IBM Cloud", "Oracle Cloud",
+  "Heroku", "DigitalOcean", "Docker", "Kubernetes", "Terraform", "Jenkins", "Travis CI", 
+  "GitLab CI/CD", "GitHub Actions", "Ansible", "Chef", "Puppet", "Prometheus", "Grafana",
+  
+  // Data Science & AI
+  "TensorFlow", "PyTorch", "scikit-learn", "Pandas", "NumPy", "Matplotlib", "Keras",
+  "Jupyter Notebooks", "Hadoop", "Spark", "NLTK", "Computer Vision", "NLP",
+  "Machine Learning", "Deep Learning", "Data Mining", "Reinforcement Learning",
+  
+  // Dev Tools
+  "Git", "GitHub", "GitLab", "Bitbucket", "JIRA", "Confluence", "VS Code", "IntelliJ IDEA",
+  "CI/CD", "Unit Testing", "Postman", "Microservices", "RESTful APIs"
 ];
 
 const mockBusinessSkills = [
@@ -121,7 +148,8 @@ const mockBusinessSkills = [
   "Strategic Planning", "Team Leadership", "Client Relations", "Public Speaking",
   "Sales", "Marketing", "Content Strategy", "SEO", "Social Media Marketing",
   "Business Development", "Negotiation", "CRM", "Microsoft Excel", "PowerPoint",
-  "Tableau", "Power BI", "Agile", "Scrum", "Six Sigma", "Product Management"
+  "Tableau", "Power BI", "Agile", "Scrum", "Six Sigma", "Product Management",
+  "Customer Experience", "Brand Management", "Market Research", "Supply Chain Management"
 ];
 
 const mockCompanies = [
@@ -154,15 +182,36 @@ const mockProjectTypes = [
   "Chat Application", "Game", "Learning Management System"
 ];
 
+// Expanded technical certifications list
 const mockTechnicalCertifications = [
-  "AWS Certified Solutions Architect", "Google Cloud Professional", "Microsoft Azure Certification",
-  "Certified Kubernetes Administrator", "TensorFlow Developer Certificate", "CompTIA Security+",
-  "Cisco CCNA", "Oracle Certified Java Programmer", "Certified Scrum Master"
+  // Cloud Certifications
+  "AWS Certified Solutions Architect", "AWS Certified Developer", "AWS Certified DevOps Engineer",
+  "Google Cloud Professional Cloud Architect", "Google Cloud Professional Data Engineer",
+  "Microsoft Azure Certification", "Microsoft Certified: Azure Solutions Architect",
+  "Microsoft Certified: Azure Developer", "Microsoft Certified: Azure Administrator",
+  
+  // DevOps & Infrastructure
+  "Certified Kubernetes Administrator", "Docker Certified Associate", 
+  "HashiCorp Certified: Terraform Associate", "Red Hat Certified Engineer",
+  
+  // Programming & Development
+  "Oracle Certified Java Programmer", "Microsoft Certified: .NET Developer",
+  "Certified Python Developer", "JavaScript Certified Developer",
+  
+  // Data & AI
+  "TensorFlow Developer Certificate", "Microsoft Certified: Azure AI Engineer",
+  "IBM Data Science Professional Certificate", "Google Professional Machine Learning Engineer",
+  
+  // Security
+  "CompTIA Security+", "Certified Information Systems Security Professional (CISSP)",
+  "Certified Ethical Hacker (CEH)", "Cisco CCNA Security"
 ];
 
 const mockBusinessCertifications = [
   "PMP (Project Management Professional)", "CFA (Chartered Financial Analyst)",
   "SHRM-CP (Society for Human Resource Management)", "Certified Public Accountant (CPA)",
   "Certified Marketing Professional", "Agile Certified Practitioner", "Six Sigma Black Belt",
-  "Certified Business Analysis Professional (CBAP)"
+  "Certified Business Analysis Professional (CBAP)", "Certified Scrum Master",
+  "ITIL Foundation Certification", "Certified Supply Chain Professional"
 ];
+

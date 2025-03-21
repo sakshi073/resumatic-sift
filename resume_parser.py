@@ -72,11 +72,45 @@ mock_degrees = [
     "MBA", "B.S. Business Administration", "M.S. Finance", "B.A. Economics"
 ]
 
+# Expanded list of technical skills including programming languages, frameworks, and cloud platforms
 mock_skills = [
-    "JavaScript", "Python", "Java", "C++", "React", "Angular", "Vue.js", "Node.js",
-    "Express", "Django", "Flask", "TensorFlow", "PyTorch", "SQL", "MongoDB", "AWS",
-    "Azure", "GCP", "Docker", "Kubernetes", "CI/CD", "Git", "React Native", "Swift",
-    "Kotlin", "Flutter", "TypeScript", "Go", "Rust", "Ruby", "PHP", "Scala",
+    # Programming Languages
+    "Python", "Java", "JavaScript", "C++", "C#", "Ruby", "PHP", "Go", "Swift", "Kotlin", 
+    "TypeScript", "Rust", "R", "Scala", "Perl", "Haskell", "Matlab", "Shell Scripting",
+    
+    # Web Development
+    "HTML", "CSS", "SASS/SCSS", "Bootstrap", "Tailwind CSS", "React", "Angular", "Vue.js", 
+    "jQuery", "Node.js", "Express.js", "Django", "Flask", "Spring Boot", "ASP.NET", 
+    "Ruby on Rails", "Laravel", "WordPress", "Redux", "GraphQL", "REST API", "WebSockets",
+    
+    # Mobile Development
+    "React Native", "Flutter", "Xamarin", "Android Development", "iOS Development", 
+    "Kotlin Multiplatform", "Swift UI", "Jetpack Compose",
+    
+    # Database Technologies
+    "SQL", "MySQL", "PostgreSQL", "MongoDB", "SQLite", "Oracle Database", "Redis", 
+    "Microsoft SQL Server", "Cassandra", "DynamoDB", "ElasticSearch", "Firebase",
+    
+    # Cloud Platforms & DevOps
+    "AWS", "Microsoft Azure", "Google Cloud Platform (GCP)", "IBM Cloud", "Oracle Cloud",
+    "Heroku", "DigitalOcean", "Docker", "Kubernetes", "Terraform", "Jenkins", "Travis CI", 
+    "GitLab CI/CD", "GitHub Actions", "Ansible", "Chef", "Puppet", "Prometheus", "Grafana",
+    
+    # Data Science & AI
+    "TensorFlow", "PyTorch", "scikit-learn", "Pandas", "NumPy", "Matplotlib", "Keras",
+    "Jupyter Notebooks", "Hadoop", "Spark", "NLTK", "Computer Vision", "NLP",
+    "Machine Learning", "Deep Learning", "Data Mining", "Reinforcement Learning",
+    
+    # Software Development Tools
+    "Git", "GitHub", "GitLab", "Bitbucket", "JIRA", "Confluence", "Trello", "Slack",
+    "VS Code", "IntelliJ IDEA", "Eclipse", "Postman", "Figma", "Adobe XD", "Sketch",
+    
+    # Other Technical Skills
+    "Microservices", "RESTful APIs", "SOAP", "Agile Methodology", "Scrum", "Test-Driven Development",
+    "Continuous Integration", "Continuous Deployment", "Unit Testing", "Load Testing",
+    "Blockchain", "Cybersecurity", "Network Security", "Ethical Hacking", "Linux",
+    
+    # Business & Soft Skills
     "Project Management", "Market Analysis", "Financial Modeling", "Data Analysis",
     "Strategic Planning", "Team Leadership", "Client Relations", "Public Speaking",
     "Sales", "Marketing", "Content Strategy", "SEO", "Social Media Marketing",
@@ -109,11 +143,38 @@ mock_project_types = [
     "Chat Application", "Game", "Learning Management System"
 ]
 
+# Updated certifications to include more technical certifications
 mock_certifications = [
-    "AWS Certified Solutions Architect", "Google Cloud Professional", "Microsoft Azure Certification",
-    "Certified Kubernetes Administrator", "TensorFlow Developer Certificate", "CompTIA Security+",
-    "Cisco CCNA", "Oracle Certified Java Programmer", "Certified Scrum Master",
-    "PMP (Project Management Professional)", "CFA (Chartered Financial Analyst)",
-    "SHRM-CP (Society for Human Resource Management)", "Certified Public Accountant (CPA)",
-    "Certified Marketing Professional", "Agile Certified Practitioner", "Six Sigma Black Belt"
+    # Cloud & DevOps Certifications
+    "AWS Certified Solutions Architect", "AWS Certified Developer", "AWS Certified DevOps Engineer",
+    "Microsoft Certified: Azure Solutions Architect", "Microsoft Certified: Azure Developer",
+    "Google Cloud Professional Cloud Architect", "Google Cloud Professional Data Engineer",
+    "Kubernetes Certified Administrator (CKA)", "Certified Kubernetes Application Developer (CKAD)",
+    "Docker Certified Associate", "HashiCorp Certified: Terraform Associate",
+    
+    # Programming & Development Certifications
+    "Oracle Certified Java Programmer", "Microsoft Certified: .NET Developer",
+    "Certified Python Developer", "JavaScript Certified Developer", "React Developer Certification",
+    "Angular Certified Developer", "Node.js Certification", "Full Stack Web Developer Certification",
+    
+    # Data Science & AI Certifications
+    "TensorFlow Developer Certificate", "Microsoft Certified: Azure AI Engineer",
+    "IBM Data Science Professional Certificate", "Google Professional Machine Learning Engineer",
+    "Deep Learning Specialization", "Applied Data Science with Python Certification",
+    
+    # Security Certifications
+    "CompTIA Security+", "Certified Information Systems Security Professional (CISSP)",
+    "Certified Ethical Hacker (CEH)", "Offensive Security Certified Professional (OSCP)",
+    "Certified Information Security Manager (CISM)", "Cisco CCNA Security",
+    
+    # Project Management & Methodologies
+    "Project Management Professional (PMP)", "Professional Scrum Master (PSM)",
+    "PRINCE2 Certification", "Certified ScrumMaster (CSM)", "Agile Certified Practitioner",
+    "Six Sigma Black Belt", "ITIL Foundation Certification",
+    
+    # Business Certifications
+    "Chartered Financial Analyst (CFA)", "Society for Human Resource Management (SHRM)",
+    "Certified Public Accountant (CPA)", "Certified Marketing Professional",
+    "Certified Business Analysis Professional (CBAP)"
 ]
+
