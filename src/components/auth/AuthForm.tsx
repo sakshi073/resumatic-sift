@@ -57,32 +57,70 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, onSuccess }) => {
   const onSubmit = async (values: LoginFormValues | RegisterFormValues) => {
     setIsLoading(true);
     try {
-      // In a real application, you would call an API endpoint here
       console.log("Form values:", values);
       
-      // Simulate API call
+      // Delay to simulate API call
       setTimeout(() => {
         if (type === "login") {
-          // Mock login logic
-          if ((values as LoginFormValues).email === "admin@example.com" && 
-              (values as LoginFormValues).password === "password") {
+          // Modified login logic to check registered users
+          const registeredUsers = localStorage.getItem("registeredUsers");
+          const users = registeredUsers ? JSON.parse(registeredUsers) : [];
+          
+          const user = users.find((u: any) => 
+            u.email === (values as LoginFormValues).email && 
+            u.password === (values as LoginFormValues).password
+          );
+          
+          // Also allow the default admin login
+          const isAdminLogin = 
+            (values as LoginFormValues).email === "admin@example.com" && 
+            (values as LoginFormValues).password === "password";
+          
+          if (user || isAdminLogin) {
+            // Get user info
+            const userData = user || { name: "Admin User", email: (values as LoginFormValues).email };
             
             // Store user info in localStorage
             localStorage.setItem("auth", JSON.stringify({
               isAuthenticated: true,
               user: {
-                name: "Admin User",
-                email: (values as LoginFormValues).email,
+                name: userData.name,
+                email: userData.email,
               }
             }));
             
             toast.success("Login successful!");
             onSuccess();
           } else {
-            toast.error("Invalid credentials. Try admin@example.com / password");
+            toast.error("Invalid credentials. Please check your email and password.");
           }
         } else {
-          // Mock register logic
+          // Register logic - store user data for future logins
+          const registeredUsers = localStorage.getItem("registeredUsers");
+          const users = registeredUsers ? JSON.parse(registeredUsers) : [];
+          
+          // Check if email already exists
+          const emailExists = users.some((user: any) => 
+            user.email === (values as RegisterFormValues).email
+          );
+          
+          if (emailExists) {
+            toast.error("Email already registered. Please use a different email.");
+            setIsLoading(false);
+            return;
+          }
+          
+          // Add new user
+          users.push({
+            name: (values as RegisterFormValues).name,
+            email: (values as RegisterFormValues).email,
+            password: (values as RegisterFormValues).password
+          });
+          
+          // Save updated users list
+          localStorage.setItem("registeredUsers", JSON.stringify(users));
+          
+          // Log user in
           localStorage.setItem("auth", JSON.stringify({
             isAuthenticated: true,
             user: {
