@@ -1,4 +1,3 @@
-
 import os
 import uuid
 import random
@@ -57,8 +56,10 @@ def extract_resume_data(file_path, filename):
 
 # Mock data for generating resumes
 mock_names = [
-    "Alex Johnson", "Taylor Smith", "Jordan Williams", "Casey Brown", "Morgan Davis",
-    "Riley Wilson", "Parker Moore", "Quinn Anderson", "Blake Thomas", "Jordan Miller"
+    "Gaurish Mundada", "Ritesh Savale", "Sakshi Changedia", 
+    "Sapna Bagal", "Jash Sureja", "Jay Hire",
+    "Vaibhav Patil", "Snehal Deshmukh", "Rohan Sharma", 
+    "Priya Patel"
 ]
 
 mock_colleges = [
