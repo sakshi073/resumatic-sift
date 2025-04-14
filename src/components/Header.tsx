@@ -1,8 +1,25 @@
 
 import React from 'react';
-import { FileSpreadsheet } from 'lucide-react';
+import { FileSpreadsheet, LogOut, User } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <header className="py-6 px-8 flex items-center justify-between animate-fade-in">
       <div className="flex items-center space-x-3">
@@ -15,8 +32,22 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center space-x-4">
-        <span className="text-sm text-muted-foreground">Designed with precision</span>
+        <span className="text-sm text-muted-foreground">Welcome, {user?.name || 'User'}</span>
         <div className="h-4 w-px bg-border"></div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <User className="h-5 w-5" />
+              <span className="sr-only">User Menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Logout</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <a 
           href="https://github.com" 
           target="_blank" 
