@@ -32,7 +32,7 @@ def extract_resume_data(file_path, filename):
         'phone': f"+91 {random.randint(100, 999)}-{random.randint(100, 999)}-{random.randint(1000, 9999)}",
         'college': random.choice(mock_colleges),
         'degree': random.choice(mock_degrees),
-        'cgpa': format(random.uniform(3.0, 4.0), '.2f'),
+        'cgpa': format(random.uniform(7.0, 9.5), '.2f'),
         'skills': random.sample(mock_skills, random.randint(5, 10)),
         'experience': [
             {
@@ -63,8 +63,16 @@ mock_names = [
 ]
 
 mock_colleges = [
-    "Stanford University", "MIT", "Harvard University", "UC Berkeley", "Princeton University",
-    "Yale University", "Carnegie Mellon University", "Columbia University", "Cornell University", "University of Michigan"
+    "Indian Institute of Technology Bombay",
+    "Indian Institute of Technology Delhi",
+    "Indian Institute of Technology Madras",
+    "Indian Institute of Technology Kanpur",
+    "Indian Institute of Technology Kharagpur",
+    "National Institute of Technology Karnataka",
+    "Birla Institute of Technology and Science Pilani",
+    "Indian Institute of Information Technology Hyderabad",
+    "Vellore Institute of Technology",
+    "College of Engineering Pune"
 ]
 
 mock_degrees = [

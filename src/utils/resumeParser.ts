@@ -39,7 +39,7 @@ export const extractResumeData = async (file: File): Promise<Resume> => {
         phone: `+91 ${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 9000 + 1000)}`,
         college: mockColleges[Math.floor(Math.random() * mockColleges.length)],
         degree: mockTechnicalDegrees[Math.floor(Math.random() * mockTechnicalDegrees.length)],
-        cgpa: (Math.random() * 1 + 3).toFixed(2),
+        cgpa: (Math.random() * 2.5 + 7).toFixed(2),
         skills: getRandomSubset(mockTechnicalSkills, Math.floor(Math.random() * 6 + 5)),
         experience: Array(Math.floor(Math.random() * 3 + 1)).fill(null).map(() => ({
           company: mockCompanies[Math.floor(Math.random() * mockCompanies.length)],
@@ -75,8 +75,16 @@ const mockNames = [
 ];
 
 const mockColleges = [
-  "Stanford University", "MIT", "Harvard University", "UC Berkeley", "Princeton University",
-  "Yale University", "Carnegie Mellon University", "Columbia University", "Cornell University", "University of Michigan"
+  "Indian Institute of Technology Bombay",
+  "Indian Institute of Technology Delhi",
+  "Indian Institute of Technology Madras",
+  "Indian Institute of Technology Kanpur",
+  "Indian Institute of Technology Kharagpur",
+  "National Institute of Technology Karnataka",
+  "Birla Institute of Technology and Science Pilani",
+  "Indian Institute of Information Technology Hyderabad",
+  "Vellore Institute of Technology",
+  "College of Engineering Pune"
 ];
 
 const mockTechnicalDegrees = [
