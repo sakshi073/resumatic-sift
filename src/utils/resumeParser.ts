@@ -26,23 +26,17 @@ export interface Resume {
 
 // Mock extraction function - in a real application, this would use PDF parsing libraries
 export const extractResumeData = async (file: File): Promise<Resume> => {
-  // This is a mock implementation - in a real app, we'd use PDF.js or a similar library
-  // to extract text and then use regex or ML to parse structured data
-  
   return new Promise((resolve) => {
-    // Simulate processing time
     setTimeout(() => {
-      // Generate random data for demonstration
       const fileName = file.name;
       const fileId = Math.random().toString(36).substring(2, 9);
       
-      // All resumes now only include technical skills
       const mockResume: Resume = {
         id: fileId,
         fileName: fileName,
         name: mockNames[Math.floor(Math.random() * mockNames.length)],
         email: `${fileId}@example.com`,
-        phone: `+1 ${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 9000 + 1000)}`,
+        phone: `+91 ${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 900 + 100)}-${Math.floor(Math.random() * 9000 + 1000)}`,
         college: mockColleges[Math.floor(Math.random() * mockColleges.length)],
         degree: mockTechnicalDegrees[Math.floor(Math.random() * mockTechnicalDegrees.length)],
         cgpa: (Math.random() * 1 + 3).toFixed(2),
@@ -62,7 +56,7 @@ export const extractResumeData = async (file: File): Promise<Resume> => {
       };
       
       resolve(mockResume);
-    }, 1000); // Simulate a delay to show loading state
+    }, 1000);
   });
 };
 

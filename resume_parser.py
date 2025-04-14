@@ -29,7 +29,7 @@ def extract_resume_data(file_path, filename):
         'fileName': filename,
         'name': random.choice(mock_names),
         'email': f"{resume_id[:8]}@example.com",
-        'phone': f"+1 {random.randint(100, 999)}-{random.randint(100, 999)}-{random.randint(1000, 9999)}",
+        'phone': f"+91 {random.randint(100, 999)}-{random.randint(100, 999)}-{random.randint(1000, 9999)}",
         'college': random.choice(mock_colleges),
         'degree': random.choice(mock_degrees),
         'cgpa': format(random.uniform(3.0, 4.0), '.2f'),
