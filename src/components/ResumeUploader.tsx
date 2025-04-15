@@ -58,19 +58,15 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
 
   const handleUpload = async () => {
     if (!isAuthenticated) {
-      toast({
-        title: "Authentication required",
-        description: "Please log in to upload resumes.",
-        variant: "destructive"
+      toast("Authentication required", {
+        description: "Please log in to upload resumes."
       });
       return;
     }
 
     if (selectedFiles.length === 0) {
-      toast({
-        title: "No files selected",
-        description: "Please select at least one resume file to upload.",
-        variant: "destructive"
+      toast("No files selected", {
+        description: "Please select at least one resume file to upload."
       });
       return;
     }
@@ -86,10 +82,8 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         
         // Check file type (in a real app, validate if it's a PDF, DOCX, etc.)
         if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx') && !file.name.endsWith('.txt')) {
-          toast({
-            title: "Unsupported file format",
-            description: `${file.name} is not a supported format. Please upload PDF, DOCX, or TXT files.`,
-            variant: "destructive"
+          toast("Unsupported file format", {
+            description: `${file.name} is not a supported format. Please upload PDF, DOCX, or TXT files.`
           });
           continue;
         }
@@ -105,10 +99,8 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           parsedResumes.push(resumeData);
         } catch (error) {
           console.error('Error saving resume:', error);
-          toast({
-            title: "Failed to save resume",
-            description: `Could not save ${file.name} to database.`,
-            variant: "destructive"
+          toast("Failed to save resume", {
+            description: `Could not save ${file.name} to database.`
           });
         }
         
@@ -122,8 +114,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         setSelectedFiles([]);
         onUploadComplete(parsedResumes);
         
-        toast({
-          title: "Processing complete",
+        toast("Processing complete", {
           description: `Successfully processed ${parsedResumes.length} resume${parsedResumes.length === 1 ? '' : 's'}.`
         });
         
@@ -135,10 +126,8 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
       setIsProcessing(false);
       setUploadProgress(0);
       
-      toast({
-        title: "Processing failed",
-        description: "An error occurred while processing the resumes. Please try again.",
-        variant: "destructive"
+      toast("Processing failed", {
+        description: "An error occurred while processing the resumes. Please try again."
       });
     }
   };

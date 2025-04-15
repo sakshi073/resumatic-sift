@@ -5,11 +5,16 @@ import AuthForm from '@/components/auth/AuthForm';
 import { useAuth } from '@/context/AuthContext';
 
 const Register = () => {
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
     return <Navigate to="/" />;
   }
+
+  const handleSuccess = () => {
+    // This function will be called after successful registration
+    // We don't need to do anything here since AuthForm already handles the login logic
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
@@ -24,7 +29,7 @@ const Register = () => {
         <div className="mt-8">
           <AuthForm 
             type="register" 
-            onSuccess={login}
+            onSuccess={handleSuccess}
           />
         </div>
 

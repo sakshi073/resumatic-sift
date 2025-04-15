@@ -1,3 +1,4 @@
+
 // Resume parsing utility functions
 import { supabase } from '@/integrations/supabase/client';
 
@@ -64,6 +65,13 @@ export const extractResumeData = async (file: File): Promise<Resume> => {
 // Save resume to Supabase
 export const saveResumeToSupabase = async (resume: Resume): Promise<string> => {
   try {
+    // Get current user ID
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+    
     const { data, error } = await supabase
       .from('resumes')
       .insert({
@@ -76,7 +84,8 @@ export const saveResumeToSupabase = async (resume: Resume): Promise<string> => {
         skills: resume.skills,
         experience: resume.experience,
         projects: resume.projects,
-        certifications: resume.certifications
+        certifications: resume.certifications,
+        user_id: user.id // Add the required user_id field
       })
       .select('id')
       .single();
