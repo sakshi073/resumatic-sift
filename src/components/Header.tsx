@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { FileSpreadsheet, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -20,6 +19,8 @@ const Header = () => {
     navigate('/login');
   };
 
+  const userName = user?.user_metadata?.name || 'User';
+
   return (
     <header className="py-6 px-8 flex items-center justify-between animate-fade-in">
       <div className="flex items-center space-x-3">
@@ -32,7 +33,7 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center space-x-4">
-        <span className="text-sm text-muted-foreground">Welcome, {user?.name || 'User'}</span>
+        <span className="text-sm text-muted-foreground">Welcome, {userName}</span>
         <div className="h-4 w-px bg-border"></div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
