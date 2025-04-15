@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import AuthForm from '@/components/auth/AuthForm';
 import { useAuth } from '@/context/AuthContext';
 
@@ -31,15 +31,6 @@ const Login = () => {
             type="login" 
             onSuccess={handleSuccess}
           />
-        </div>
-
-        <div className="text-center mt-4">
-          <p className="text-sm text-muted-foreground">
-            Don't have an account?{' '}
-            <Link to="/register" className="font-medium text-primary hover:underline">
-              Register
-            </Link>
-          </p>
         </div>
       </div>
     </div>
