@@ -8,7 +8,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   session: Session | null;
-  profile: any; // Replace with proper profile type
+  profile: any; // Profile type
   login: (email: string, password: string) => Promise<{ error: any }>;
   signup: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
   signInWithSocial: (provider: Provider) => Promise<{ error: any }>;
@@ -47,10 +47,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setIsAuthenticated(!!session);
+        
+        if (session) {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+          setProfile(profileData);
+        }
       }
     );
 
@@ -67,6 +76,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toast.error(error.message);
         return { error };
       }
+      toast.success("Successfully logged in!");
       return { error: null };
     } catch (error: any) {
       toast.error('Login failed');
@@ -103,7 +113,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signInWithSocial = async (provider: Provider) => {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider });
+      const { error } = await supabase.auth.signInWithOAuth({ 
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`
+        }
+      });
       if (error) {
         toast.error(error.message);
         return { error };
@@ -119,8 +134,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     setLoading(true);
-    await supabase.auth.signOut();
-    setLoading(false);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success("Successfully logged out");
+      }
+      setProfile(null);
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Failed to log out");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
