@@ -2,8 +2,9 @@
 import React, { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Upload, FilePlus, Loader2 } from 'lucide-react';
-import { Resume, extractResumeData } from '@/utils/resumeParser';
-import { toast } from "@/components/ui/use-toast";
+import { Resume, extractResumeData, saveResumeToSupabase } from '@/utils/resumeParser';
+import { toast } from "sonner";
+import { useAuth } from '@/context/AuthContext';
 
 interface ResumeUploaderProps {
   onUploadComplete: (resumes: Resume[]) => void;
@@ -20,6 +21,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   const [dragActive, setDragActive] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const { isAuthenticated } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -55,6 +57,15 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   };
 
   const handleUpload = async () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to upload resumes.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (selectedFiles.length === 0) {
       toast({
         title: "No files selected",
@@ -85,7 +96,21 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
         
         // Process the file and extract resume data
         const resumeData = await extractResumeData(file);
-        parsedResumes.push(resumeData);
+        
+        // Save to Supabase
+        try {
+          const resumeId = await saveResumeToSupabase(resumeData);
+          // Update the ID to the one from the database
+          resumeData.id = resumeId;
+          parsedResumes.push(resumeData);
+        } catch (error) {
+          console.error('Error saving resume:', error);
+          toast({
+            title: "Failed to save resume",
+            description: `Could not save ${file.name} to database.`,
+            variant: "destructive"
+          });
+        }
         
         // Update progress
         setUploadProgress(Math.round(((i + 1) / totalFiles) * 100));
@@ -141,7 +166,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
           <Button 
             variant="outline" 
             onClick={triggerFileInput}
-            disabled={isProcessing}
+            disabled={isProcessing || !isAuthenticated}
             className="transition-all duration-300"
           >
             <FilePlus className="mr-2 h-4 w-4" /> Browse Files
@@ -154,12 +179,12 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
             accept=".pdf,.docx,.txt"
             multiple
             className="hidden"
-            disabled={isProcessing}
+            disabled={isProcessing || !isAuthenticated}
           />
           
           <Button
             onClick={handleUpload}
-            disabled={selectedFiles.length === 0 || isProcessing}
+            disabled={selectedFiles.length === 0 || isProcessing || !isAuthenticated}
             className="transition-all duration-300"
           >
             {isProcessing ? (
@@ -172,6 +197,12 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
             )}
           </Button>
         </div>
+        
+        {!isAuthenticated && (
+          <p className="text-sm text-amber-500 font-medium mb-4">
+            You need to be logged in to upload resumes.
+          </p>
+        )}
         
         {selectedFiles.length > 0 && (
           <div className="w-full max-w-md">

@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { useAuth } from "@/context/AuthContext";
+import { Loader2 } from "lucide-react";
 
 // Form schema validation
 const loginSchema = z.object({
@@ -45,6 +47,7 @@ interface AuthFormProps {
 
 export const AuthForm: React.FC<AuthFormProps> = ({ type, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { login, signup } = useAuth();
 
   // Set up form based on type
   const form = useForm<LoginFormValues | RegisterFormValues>({
@@ -57,86 +60,26 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, onSuccess }) => {
   const onSubmit = async (values: LoginFormValues | RegisterFormValues) => {
     setIsLoading(true);
     try {
-      console.log("Form values:", values);
-      
-      // Delay to simulate API call
-      setTimeout(() => {
-        if (type === "login") {
-          // Modified login logic to check registered users
-          const registeredUsers = localStorage.getItem("registeredUsers");
-          const users = registeredUsers ? JSON.parse(registeredUsers) : [];
-          
-          const user = users.find((u: any) => 
-            u.email === (values as LoginFormValues).email && 
-            u.password === (values as LoginFormValues).password
-          );
-          
-          // Also allow the default admin login
-          const isAdminLogin = 
-            (values as LoginFormValues).email === "admin@example.com" && 
-            (values as LoginFormValues).password === "password";
-          
-          if (user || isAdminLogin) {
-            // Get user info
-            const userData = user || { name: "Admin User", email: (values as LoginFormValues).email };
-            
-            // Store user info in localStorage
-            localStorage.setItem("auth", JSON.stringify({
-              isAuthenticated: true,
-              user: {
-                name: userData.name,
-                email: userData.email,
-              }
-            }));
-            
-            toast.success("Login successful!");
-            onSuccess();
-          } else {
-            toast.error("Invalid credentials. Please check your email and password.");
-          }
-        } else {
-          // Register logic - store user data for future logins
-          const registeredUsers = localStorage.getItem("registeredUsers");
-          const users = registeredUsers ? JSON.parse(registeredUsers) : [];
-          
-          // Check if email already exists
-          const emailExists = users.some((user: any) => 
-            user.email === (values as RegisterFormValues).email
-          );
-          
-          if (emailExists) {
-            toast.error("Email already registered. Please use a different email.");
-            setIsLoading(false);
-            return;
-          }
-          
-          // Add new user
-          users.push({
-            name: (values as RegisterFormValues).name,
-            email: (values as RegisterFormValues).email,
-            password: (values as RegisterFormValues).password
-          });
-          
-          // Save updated users list
-          localStorage.setItem("registeredUsers", JSON.stringify(users));
-          
-          // Log user in
-          localStorage.setItem("auth", JSON.stringify({
-            isAuthenticated: true,
-            user: {
-              name: (values as RegisterFormValues).name,
-              email: (values as RegisterFormValues).email,
-            }
-          }));
-          
-          toast.success("Account created successfully!");
+      if (type === "login") {
+        const { email, password } = values as LoginFormValues;
+        const { error } = await login(email, password);
+        if (!error) {
+          toast.success("Login successful!");
           onSuccess();
         }
-        setIsLoading(false);
-      }, 1000);
-      
+      } else {
+        // Register with Supabase
+        const { name, email, password } = values as RegisterFormValues;
+        const { error } = await signup(email, password, name);
+        if (!error) {
+          // If registration is successful, the onAuthStateChange will update the user
+          onSuccess();
+        }
+      }
     } catch (error) {
+      console.error("Authentication error:", error);
       toast.error("Something went wrong. Please try again.");
+    } finally {
       setIsLoading(false);
     }
   };
@@ -209,7 +152,14 @@ export const AuthForm: React.FC<AuthFormProps> = ({ type, onSuccess }) => {
           className="w-full" 
           disabled={isLoading}
         >
-          {isLoading ? "Please wait..." : type === "login" ? "Login" : "Register"}
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {type === "login" ? "Logging in..." : "Registering..."}
+            </>
+          ) : (
+            type === "login" ? "Login" : "Register"
+          )}
         </Button>
       </form>
     </Form>

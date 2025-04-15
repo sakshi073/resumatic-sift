@@ -1,23 +1,49 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import ResumeUploader from '@/components/ResumeUploader';
 import SearchFilter from '@/components/SearchFilter';
 import ResumeTable from '@/components/ResumeTable';
-import { Resume } from '@/utils/resumeParser';
+import { Resume, fetchResumesFromSupabase } from '@/utils/resumeParser';
 import { Toaster } from '@/components/ui/toaster';
+import { useAuth } from '@/context/AuthContext';
+import { toast } from 'sonner';
 
 const Index = () => {
   const [resumes, setResumes] = useState<Resume[]>([]);
   const [filteredResumes, setFilteredResumes] = useState<Resume[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
+
+  // Fetch resumes from Supabase when component mounts
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadResumes();
+    } else {
+      setIsLoading(false);
+      setResumes([]);
+      setFilteredResumes([]);
+    }
+  }, [isAuthenticated]);
+
+  const loadResumes = async () => {
+    try {
+      setIsLoading(true);
+      const fetchedResumes = await fetchResumesFromSupabase();
+      setResumes(fetchedResumes);
+      setFilteredResumes(fetchedResumes);
+    } catch (error) {
+      console.error('Error fetching resumes:', error);
+      toast.error('Failed to load resumes');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleUploadComplete = (newResumes: Resume[]) => {
-    // Combine new resumes with existing ones, avoiding duplicates by ID
-    const existingIds = new Set(resumes.map(r => r.id));
-    const uniqueNewResumes = newResumes.filter(r => !existingIds.has(r.id));
-    
-    const updatedResumes = [...resumes, ...uniqueNewResumes];
+    // Combine new resumes with existing ones
+    const updatedResumes = [...resumes, ...newResumes];
     setResumes(updatedResumes);
     setFilteredResumes(updatedResumes);
   };
@@ -38,7 +64,14 @@ const Index = () => {
               />
             </section>
             
-            {resumes.length > 0 && (
+            {isLoading ? (
+              <div className="flex justify-center py-12">
+                <div className="animate-pulse flex flex-col items-center">
+                  <div className="h-8 w-64 bg-muted rounded-md mb-4"></div>
+                  <div className="h-48 w-full max-w-3xl bg-muted rounded-md"></div>
+                </div>
+              </div>
+            ) : resumes.length > 0 ? (
               <section className="space-y-6">
                 <div className="flex items-center justify-between animate-fade-in">
                   <h2 className="text-2xl font-semibold">
@@ -55,6 +88,21 @@ const Index = () => {
                 />
                 
                 <ResumeTable resumes={filteredResumes} />
+              </section>
+            ) : isAuthenticated ? (
+              <section className="text-center py-12">
+                <h3 className="text-xl font-medium text-muted-foreground">
+                  No resumes found
+                </h3>
+                <p className="text-muted-foreground mt-2">
+                  Upload some resumes to get started
+                </p>
+              </section>
+            ) : (
+              <section className="text-center py-12">
+                <h3 className="text-xl font-medium text-muted-foreground">
+                  Please log in to view and manage resumes
+                </h3>
               </section>
             )}
           </div>
