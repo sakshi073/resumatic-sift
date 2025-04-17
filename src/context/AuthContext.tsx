@@ -59,6 +59,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             .eq('id', session.user.id)
             .single();
           setProfile(profileData);
+        } else {
+          // Clear profile when session is null (user is logged out)
+          setProfile(null);
         }
       }
     );
@@ -135,14 +138,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     setLoading(true);
     try {
+      // Use signOut from supabase auth
       const { error } = await supabase.auth.signOut();
+      
       if (error) {
+        console.error("Logout error:", error);
         toast.error(error.message);
-      } else {
-        toast.success("Successfully logged out");
+        return;
       }
+      
+      // Manually update state to ensure UI reflects logged out status
+      setIsAuthenticated(false);
+      setUser(null);
+      setSession(null);
       setProfile(null);
-    } catch (error) {
+      
+      toast.success("Successfully logged out");
+    } catch (error: any) {
       console.error("Logout error:", error);
       toast.error("Failed to log out");
     } finally {

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { FileSpreadsheet, LogOut, User } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -14,8 +15,9 @@ const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    // Adding async/await to ensure the logout completes
+    await logout();
     navigate('/login');
   };
 
