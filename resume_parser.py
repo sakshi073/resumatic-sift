@@ -63,15 +63,13 @@ mock_names = [
 ]
 
 mock_colleges = [
-    "Indian Institute of Technology Bombay",
-    "Indian Institute of Technology Delhi",
-    "Indian Institute of Technology Madras",
-    "Indian Institute of Technology Kanpur",
-    "Indian Institute of Technology Kharagpur",
-    "National Institute of Technology Karnataka",
-    "Birla Institute of Technology and Science Pilani",
-    "Indian Institute of Information Technology Hyderabad",
-    "Vellore Institute of Technology",
+    "Shrimati Kashibai Navale College of Engineering",
+    "NBN Sinhgad College of Engineering",
+    "Sinhgad College of Engineering",
+    "PCCOE",
+    "PICT",
+    "DY Patil College of Engineering",
+    "Sinhgad Institute of Technology",
     "College of Engineering Pune"
 ]
 
