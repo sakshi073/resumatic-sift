@@ -135,9 +135,8 @@ const getRandomSubset = <T>(array: T[], count: number): T[] => {
 // Mock data for generating resumes
 const mockNames = [
   "Gaurish Mundada", "Ritesh Savale", "Sakshi Changedia", 
-  "Sapna Bagal", "Jash Sureja", "Jay Hire", 
-  "Vaibhav Patil", "Snehal Deshmukh", "Rohan Sharma", 
-  "Priya Patel"
+  "Sapna Bagal", "Jash Sureja", "Jay Hire", "Sarvesh Pabitwar", 
+  "Vaibhav Anarase", "Akshay Gahilod"
 ];
 
 const mockColleges = [

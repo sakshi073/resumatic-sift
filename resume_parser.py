@@ -57,9 +57,8 @@ def extract_resume_data(file_path, filename):
 # Mock data for generating resumes
 mock_names = [
     "Gaurish Mundada", "Ritesh Savale", "Sakshi Changedia", 
-    "Sapna Bagal", "Jash Sureja", "Jay Hire",
-    "Vaibhav Patil", "Snehal Deshmukh", "Rohan Sharma", 
-    "Priya Patel"
+    "Sapna Bagal", "Jash Sureja", "Jay Hire", "Sarvesh Pabitwar", 
+    "Vaibhav Anarase", "Akshay Gahilod"
 ]
 
 mock_colleges = [
