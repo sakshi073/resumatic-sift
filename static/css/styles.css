@@ -105,8 +105,8 @@ body {
 }
 .glassmorphism {
     background: rgba(36, 33, 57, 0.84) !important;
-    backdrop-filter: blur(18px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+    backdrop-filter: blur(12px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
     border-radius: 1.13rem !important;
     border: 1px solid #fff3 !important;
 }
@@ -125,7 +125,7 @@ body {
     text-fill-color: transparent;
 }
 .drop-shadow-glow {
-    filter: drop-shadow(0 0 13px #D946EF88) drop-shadow(0 0 14px #8B5CF655);
+    filter: drop-shadow(0 0 10px #D946EF88);
 }
 .animate-spin-slow {
     animation: spin 32s linear infinite !important;
@@ -138,6 +138,20 @@ body {
     100% {transform: rotate(360deg);}
 }
 @keyframes pulse {
-    0%,100% { opacity: 1 }
-    50% { opacity: 0.36 }
+    0%,100% { opacity: 0.7 }
+    50% { opacity: 0.3 }
+}
+
+/* Optimized login page background */
+.bg-login-gradient {
+    background-image: linear-gradient(to bottom right, #221F26, #1A1F2C);
+}
+
+/* Optimized animation for scale-in */
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
 }

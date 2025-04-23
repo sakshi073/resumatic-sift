@@ -26,33 +26,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Improved session fetching with better error handling
     const fetchSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsAuthenticated(!!session);
+      try {
+        // Set up auth state listener FIRST to avoid missing auth events
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (event, session) => {
+            console.log("Auth state changed:", event);
+            // Perform synchronous updates to avoid deadlocks
+            setSession(session);
+            setUser(session?.user ?? null);
+            setIsAuthenticated(!!session);
+            
+            // Defer profile fetching using setTimeout to avoid Supabase deadlocks
+            if (session?.user) {
+              setTimeout(async () => {
+                try {
+                  const { data: profileData } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+                  setProfile(profileData);
+                } catch (error) {
+                  console.error("Profile fetch error:", error);
+                }
+              }, 0);
+            } else {
+              setProfile(null);
+            }
+          }
+        );
 
-      if (session) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single();
-        setProfile(profileData);
-      }
-
-      setLoading(false);
-    };
-
-    fetchSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log("Auth state change:", event, session ? "Session exists" : "No session");
+        // THEN check for existing session
+        const { data: { session } } = await supabase.auth.getSession();
         setSession(session);
         setUser(session?.user ?? null);
         setIsAuthenticated(!!session);
-        
+
         if (session) {
           const { data: profileData } = await supabase
             .from('profiles')
@@ -60,16 +71,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             .eq('id', session.user.id)
             .single();
           setProfile(profileData);
-        } else {
-          // Clear profile when session is null (user is logged out)
-          setProfile(null);
         }
+      } catch (error) {
+        console.error("Session initialization error:", error);
+      } finally {
+        // Always turn off loading state regardless of success/failure
+        setLoading(false);
       }
-    );
-
-    return () => {
-      subscription.unsubscribe();
     };
+
+    fetchSession();
   }, []);
 
   const login = async (email: string, password: string) => {
