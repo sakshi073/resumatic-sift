@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronRight, Briefcase, GraduationCap, Award, FolderOpen } from 'lucide-react';
+import { ChevronDown, ChevronRight, Briefcase, GraduationCap, Award, FolderOpen, Atom } from 'lucide-react';
 import { Resume } from '@/utils/resumeParser';
 
 interface ResumeTableProps {
@@ -30,18 +30,22 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
   }
 
   return (
-    <div className="space-y-4 animate-stagger">
+    <div className="space-y-6 animate-stagger">
       {resumes.map((resume, index) => (
         <Card 
           key={resume.id} 
-          className={`overflow-hidden transition-all duration-300 animate-scale-in card-hover ${
-            expandedRows[resume.id] ? 'ring-1 ring-primary/20' : ''
-          }`}
+          className={`overflow-hidden transition-all duration-300 glassmorphism rounded-xl border border-primary/20 shadow-xl ${
+            expandedRows[resume.id] ? 'ring-2 ring-primary/40' : ''
+          } animate-fade-up`}
+          style={{ animationDelay: `${index * 50}ms`}}
         >
-          <CardHeader className="pb-2">
+          <CardHeader className="pb-2 relative">
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-xl">{resume.name}</CardTitle>
+                <CardTitle className="text-xl text-gradient-primary flex items-center gap-2">
+                  <Atom className="w-5 h-5 text-primary animate-spin-slow" />
+                  {resume.name}
+                </CardTitle>
                 <CardDescription className="flex items-center space-x-2">
                   <a 
                     href={`mailto:${resume.email}`} 
@@ -58,6 +62,7 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
                 size="sm"
                 onClick={() => toggleRow(resume.id)}
                 aria-label={expandedRows[resume.id] ? "Collapse" : "Expand"}
+                className="hover:scale-110 transition-transform"
               >
                 {expandedRows[resume.id] ? (
                   <ChevronDown className="h-4 w-4" />
@@ -71,7 +76,7 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
           <CardContent className="pb-3">
             <div className="flex flex-wrap gap-2 mb-3">
               {resume.skills.map((skill, i) => (
-                <Badge key={i} variant="secondary" className="animate-fade-in" style={{ animationDelay: `${i * 50}ms` }}>
+                <Badge key={i} variant="secondary" className="animate-fade-in px-2 py-1 font-semibold border border-primary/20 shadow" style={{ animationDelay: `${i * 50}ms` }}>
                   {skill}
                 </Badge>
               ))}
@@ -85,14 +90,14 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
               <span>•</span>
               <div>{resume.degree}</div>
               <span>•</span>
-              <div>CGPA: {resume.cgpa}</div>
+              <div className="font-bold text-primary">CGPA: {resume.cgpa}</div>
             </div>
             
             <Collapsible open={expandedRows[resume.id]} className="mt-4">
               <CollapsibleContent className="pt-2 space-y-4 animate-fade-up">
                 {resume.experience.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="font-medium flex items-center text-sm">
+                    <h4 className="font-medium flex items-center text-sm text-gradient">
                       <Briefcase className="h-4 w-4 mr-2" /> Experience
                     </h4>
                     <div className="pl-6 space-y-3">
@@ -111,7 +116,7 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
                 
                 {resume.projects.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="font-medium flex items-center text-sm">
+                    <h4 className="font-medium flex items-center text-sm text-gradient-primary">
                       <FolderOpen className="h-4 w-4 mr-2" /> Projects
                     </h4>
                     <div className="pl-6 space-y-3">
@@ -121,7 +126,7 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
                           <div className="text-sm mt-1">{project.description}</div>
                           <div className="flex flex-wrap gap-1 mt-2">
                             {project.technologies.map((tech, j) => (
-                              <Badge key={j} variant="outline" className="text-xs">
+                              <Badge key={j} variant="outline" className="text-xs font-semibold border-primary/20 shadow-sm">
                                 {tech}
                               </Badge>
                             ))}
@@ -134,7 +139,7 @@ const ResumeTable: React.FC<ResumeTableProps> = ({ resumes }) => {
                 
                 {resume.certifications.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="font-medium flex items-center text-sm">
+                    <h4 className="font-medium flex items-center text-sm text-gradient">
                       <Award className="h-4 w-4 mr-2" /> Certifications
                     </h4>
                     <div className="pl-6">

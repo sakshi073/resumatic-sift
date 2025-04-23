@@ -1,30 +1,26 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #212529;
+    background-color: #18142c;
+    color: #f7f7fa;
+    transition: background 0.6s cubic-bezier(0.4,0,0.6,1);
 }
-
 .border-dashed {
-    border: 2px dashed #dee2e6;
+    border: 2px dashed #C792EA;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
 }
-
 .border-dashed:hover {
-    border-color: #6c757d;
-    background-color: rgba(108, 117, 125, 0.05);
+    border-color: #8B5CF6;
+    background-color: rgba(139, 92, 246, 0.07);
 }
-
 .card-hover {
     transition: all 0.2s ease;
 }
-
 .card-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0.5rem 1rem #D946EF1A;
 }
-
 .upload-icon {
     width: 64px;
     height: 64px;
@@ -32,87 +28,116 @@ body {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    background-color: rgba(13, 110, 253, 0.1);
+    background: linear-gradient(120deg, #8B5CF6 0%, #D946EF 100%);
     border-radius: 50%;
+    box-shadow: 0 2px 40px #8B5CF642;
 }
-
 .badge-skill {
-    background-color: #f1f3f5;
-    color: #495057;
-    border: 1px solid #dee2e6;
-    font-weight: 500;
+    background: linear-gradient(90deg,#f1f3f5 50%, #C792EA10 100%);
+    color: #7E69AB;
+    border: 1px solid #9b87f555;
+    font-weight: 600;
 }
-
 .resume-card {
-    border: 1px solid #dee2e6;
-    border-radius: 0.5rem;
+    border: 1px solid #6C63FF20;
+    border-radius: 0.85rem;
     margin-bottom: 1rem;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(.29,1.06,.83,.67);
+    background: rgba(31, 19, 54, 0.95);
+    box-shadow: 0 4px 32px #9B87F526;
+    backdrop-filter: blur(6px);
 }
-
 .resume-card:hover {
-    border-color: #0d6efd;
-    box-shadow: 0 0.25rem 0.75rem rgba(13, 110, 253, 0.12);
+    border-color: #F97316CC;
+    box-shadow: 0 0.25rem 2rem #D946EF27;
+    transform: translateY(-2px) scale(1.015);
 }
-
 .resume-card .card-header {
-    background-color: transparent;
-    border-bottom: 1px solid #dee2e6;
+    background: transparent;
+    border-bottom: 1px solid #8B5CF62d;
 }
-
 .section-icon {
     width: 24px;
-    color: #6c757d;
+    color: #8B5CF6;
     margin-right: 10px;
 }
-
-/* Animation classes */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.6s cubic-bezier(0.43,1.13,0.65,1.05);
 }
-
 @keyframes slideUp {
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
-
 .slide-up {
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.4s cubic-bezier(.45,.27,.75,.72);
 }
-
 /* Skill badge customization */
 .skill-badge {
     display: inline-flex;
     align-items: center;
-    background-color: #e9ecef;
-    color: #495057;
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    margin-right: 0.25rem;
-    margin-bottom: 0.25rem;
+    background: linear-gradient(90deg, #e9ecef 60%, #C792EA20 100%);
+    color: #495089;
+    font-size: 0.77rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 0.3rem;
+    margin-right: 0.22rem;
+    margin-bottom: 0.22rem;
     user-select: none;
+    text-shadow: 0 1px 1px #fff2;
 }
-
 .skill-badge .remove-skill {
-    margin-left: 0.25rem;
+    margin-left: 0.18rem;
     cursor: pointer;
-    font-size: 0.875rem;
+    font-size: 0.89rem;
 }
-
-/* For drag and drop highlight */
 .drag-active {
-    border-color: #0d6efd !important;
-    background-color: rgba(13, 110, 253, 0.1) !important;
+    border-color: #F97316 !important;
+    background-color: rgba(251,146,60,0.12) !important;
 }
-
 /* Toast customization */
 .toast {
-    background-color: white;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background: rgba(31, 19, 54, 0.99);
+    box-shadow: 0 0.5rem 1rem #7E69AB30;
+}
+.glassmorphism {
+    background: rgba(36, 33, 57, 0.84) !important;
+    backdrop-filter: blur(18px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(170%) !important;
+    border-radius: 1.13rem !important;
+    border: 1px solid #fff3 !important;
+}
+.text-gradient {
+    background: linear-gradient(90deg,#8B5CF6 0,#F97316 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+.text-gradient-primary {
+    background: linear-gradient(90deg,#9b87f5 0%,#8B5CF6 50%,#D946EF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+.drop-shadow-glow {
+    filter: drop-shadow(0 0 13px #D946EF88) drop-shadow(0 0 14px #8B5CF655);
+}
+.animate-spin-slow {
+    animation: spin 32s linear infinite !important;
+}
+.animate-pulse-slow {
+    animation: pulse 2.8s cubic-bezier(0.4,0,0.6,1) infinite;
+}
+@keyframes spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+@keyframes pulse {
+    0%,100% { opacity: 1 }
+    50% { opacity: 0.36 }
 }
