@@ -48,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log("Auth state change:", event, session ? "Session exists" : "No session");
         setSession(session);
         setUser(session?.user ?? null);
         setIsAuthenticated(!!session);
@@ -136,9 +137,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = async () => {
-    setLoading(true);
     try {
-      // Use signOut from supabase auth
+      console.log("Attempting to log out...");
+      setLoading(true);
+      
       const { error } = await supabase.auth.signOut();
       
       if (error) {
@@ -147,13 +149,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
       
-      // Manually update state to ensure UI reflects logged out status
+      // Force state update to ensure UI reflects logged out status
       setIsAuthenticated(false);
       setUser(null);
       setSession(null);
       setProfile(null);
       
+      console.log("Logout successful, state cleared");
       toast.success("Successfully logged out");
+
+      // Help break any potential caching issues
+      window.location.href = '/login';
+      
     } catch (error: any) {
       console.error("Logout error:", error);
       toast.error("Failed to log out");

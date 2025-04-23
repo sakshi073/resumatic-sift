@@ -16,9 +16,15 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    // Adding async/await to ensure the logout completes
-    await logout();
-    navigate('/login');
+    console.log("Logout button clicked");
+    try {
+      // Adding async/await to ensure the logout completes
+      await logout();
+      // Navigation is now handled in the logout function itself
+      console.log("Logout function completed");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   const userName = user?.user_metadata?.name || 'User';
