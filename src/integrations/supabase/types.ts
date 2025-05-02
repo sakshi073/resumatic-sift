@@ -9,75 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      profiles: {
-        Row: {
-          created_at: string
-          email: string | null
-          id: string
-          name: string | null
-        }
-        Insert: {
-          created_at?: string
-          email?: string | null
-          id: string
-          name?: string | null
-        }
-        Update: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name?: string | null
-        }
-        Relationships: []
-      }
-      resumes: {
-        Row: {
-          certifications: string[] | null
-          cgpa: number | null
-          college: string | null
-          created_at: string
-          degree: string | null
-          email: string | null
-          experience: Json | null
-          id: string
-          name: string
-          phone: string | null
-          projects: Json | null
-          skills: string[] | null
-          user_id: string
-        }
-        Insert: {
-          certifications?: string[] | null
-          cgpa?: number | null
-          college?: string | null
-          created_at?: string
-          degree?: string | null
-          email?: string | null
-          experience?: Json | null
-          id?: string
-          name: string
-          phone?: string | null
-          projects?: Json | null
-          skills?: string[] | null
-          user_id: string
-        }
-        Update: {
-          certifications?: string[] | null
-          cgpa?: number | null
-          college?: string | null
-          created_at?: string
-          degree?: string | null
-          email?: string | null
-          experience?: Json | null
-          id?: string
-          name?: string
-          phone?: string | null
-          projects?: Json | null
-          skills?: string[] | null
-          user_id?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
