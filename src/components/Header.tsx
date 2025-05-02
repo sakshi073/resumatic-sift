@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, profile, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -25,7 +25,8 @@ const Header = () => {
     }
   };
 
-  const userName = user?.user_metadata?.name || 'User';
+  // Use profile name first if available, then check user_metadata, fallback to "User"
+  const userName = profile?.name || user?.user_metadata?.full_name || 'User';
 
   return (
     <header className="py-4 px-6 flex items-center justify-between bg-card shadow rounded-lg mb-6">
