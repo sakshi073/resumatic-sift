@@ -101,6 +101,10 @@ export default {
 				'blur-in': {
 					from: { filter: 'blur(8px)', opacity: '0' },
 					to: { filter: 'blur(0)', opacity: '1' }
+				},
+				'theme-fade': {
+					from: { opacity: '0.8' },
+					to: { opacity: '1' }
 				}
 			},
 			animation: {
@@ -110,7 +114,8 @@ export default {
 				'fade-up': 'fade-up 0.5s ease-out',
 				'scale-in': 'scale-in 0.4s ease-out',
 				'slide-in': 'slide-in 0.4s ease-out',
-				'blur-in': 'blur-in 0.4s ease-out'
+				'blur-in': 'blur-in 0.4s ease-out',
+				'theme-fade': 'theme-fade 0.3s ease-out'
 			}
 		}
 	},

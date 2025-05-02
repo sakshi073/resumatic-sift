@@ -8,7 +8,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 99%;
+    --background: 210 40% 98%;
     --foreground: 210 10% 14%;
 
     --card: 0 0% 100%;
@@ -49,16 +49,16 @@
   }
 
   .dark {
-    --background: 210 10% 10%;
+    --background: 210 30% 8%;
     --foreground: 0 0% 95%;
 
-    --card: 210 10% 12%;
+    --card: 210 30% 10%;
     --card-foreground: 0 0% 95%;
 
-    --popover: 210 10% 12%;
+    --popover: 210 30% 10%;
     --popover-foreground: 0 0% 95%;
 
-    --primary: 210 100% 50%;
+    --primary: 210 100% 60%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 14% 16%;
@@ -75,7 +75,7 @@
 
     --border: 215 14% 20%;
     --input: 215 14% 20%;
-    --ring: 210 100% 50%;
+    --ring: 210 100% 60%;
   }
 }
 
@@ -97,6 +97,10 @@
   @apply bg-white/90 backdrop-blur-md border border-white/20 shadow-sm;
 }
 
+.dark .glassmorphism {
+  @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-md;
+}
+
 .card-hover {
   @apply transition-all duration-300 hover:shadow-md hover:translate-y-[-2px];
 }
@@ -111,3 +115,7 @@
 .animate-stagger > *:nth-child(8) { animation-delay: 350ms; }
 .animate-stagger > *:nth-child(9) { animation-delay: 400ms; }
 .animate-stagger > *:nth-child(10) { animation-delay: 450ms; }
+
+.theme-transition {
+  @apply transition-colors duration-300 ease-in-out;
+}

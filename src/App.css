@@ -7,11 +7,26 @@
 }
 
 body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light Theme (default) */
+body {
   background-color: #f8fafc;
   background-image: 
     radial-gradient(at 80% 0%, rgba(189, 227, 255, 0.2) 0px, transparent 50%),
     radial-gradient(at 0% 50%, rgba(209, 213, 254, 0.2) 0px, transparent 50%);
   background-attachment: fixed;
+}
+
+/* Dark Theme */
+body.dark {
+  background-color: #0f172a;
+  background-image: 
+    radial-gradient(at 80% 0%, rgba(30, 58, 138, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(51, 65, 85, 0.2) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: #f1f5f9;
 }
 
 .logo {
@@ -52,15 +67,29 @@ body {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
+/* For dark theme */
+.dark .card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
 .read-the-docs {
   color: #888;
 }
 
+/* Glassmorphism - Light Theme */
 .glassmorphism {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Glassmorphism - Dark Theme */
+.dark .glassmorphism {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes fadeUp {
@@ -89,4 +118,12 @@ body {
 
 .pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Dark mode button animation */
+.theme-toggle {
+  transition: all 0.3s ease;
+}
+.theme-toggle:hover {
+  transform: rotate(45deg);
 }
