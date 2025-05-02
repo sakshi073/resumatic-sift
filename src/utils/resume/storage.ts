@@ -1,6 +1,9 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { Resume } from './types';
+import { Database } from '@/integrations/supabase/types';
+
+type Tables = Database['public']['Tables'];
 
 // Save resume to Supabase
 export const saveResumeToSupabase = async (resume: Resume): Promise<string> => {
@@ -26,11 +29,12 @@ export const saveResumeToSupabase = async (resume: Resume): Promise<string> => {
         projects: resume.projects,
         certifications: resume.certifications,
         user_id: user.id
-      })
+      } as Tables['resumes']['Insert'])
       .select('id')
       .single();
 
     if (error) throw error;
+    if (!data) throw new Error('No data returned from insert');
     return data.id;
   } catch (error) {
     console.error('Error saving resume:', error);
@@ -47,7 +51,7 @@ export const fetchResumesFromSupabase = async (): Promise<Resume[]> => {
 
     if (error) throw error;
     
-    return data.map((item: any) => ({
+    return (data || []).map((item: any) => ({
       id: item.id,
       fileName: `Resume_${item.name.replace(/\s+/g, '_')}.pdf`,
       name: item.name,
