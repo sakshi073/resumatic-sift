@@ -56,6 +56,13 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
     fileInputRef.current?.click();
   };
 
+  const clearFiles = () => {
+    setSelectedFiles([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleUpload = async () => {
     if (!isAuthenticated) {
       toast("Authentication required", {
@@ -111,7 +118,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
       // Reset progress and provide results
       setTimeout(() => {
         setUploadProgress(0);
-        setSelectedFiles([]);
+        clearFiles(); // Clear selected files after successful processing
         onUploadComplete(parsedResumes);
         
         toast("Processing complete", {
@@ -185,6 +192,16 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
               'Process Resumes'
             )}
           </Button>
+          
+          {selectedFiles.length > 0 && !isProcessing && (
+            <Button 
+              variant="ghost" 
+              onClick={clearFiles}
+              className="transition-all duration-300"
+            >
+              Clear Files
+            </Button>
+          )}
         </div>
         
         {!isAuthenticated && (

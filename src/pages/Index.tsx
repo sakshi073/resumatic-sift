@@ -4,7 +4,8 @@ import Header from '@/components/Header';
 import ResumeUploader from '@/components/ResumeUploader';
 import SearchFilter from '@/components/SearchFilter';
 import ResumeTable from '@/components/ResumeTable';
-import { Resume, fetchResumesFromSupabase } from '@/utils/resumeParser';
+import { Resume } from '@/utils/resume/types';
+import { fetchResumesFromSupabase } from '@/utils/resume/storage';
 import { Toaster } from '@/components/ui/toaster';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
@@ -41,11 +42,11 @@ const Index = () => {
     }
   };
 
-  const handleUploadComplete = (newResumes: Resume[]) => {
-    // Combine new resumes with existing ones
-    const updatedResumes = [...resumes, ...newResumes];
-    setResumes(updatedResumes);
-    setFilteredResumes(updatedResumes);
+  const handleUploadComplete = async () => {
+    // After upload completes, reload all resumes from the database
+    // This ensures we have the latest data and clears the upload history
+    await loadResumes();
+    toast.success('Resumes processed successfully');
   };
 
   return (
