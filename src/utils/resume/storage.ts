@@ -70,3 +70,16 @@ export const fetchResumesFromSupabase = async (): Promise<Resume[]> => {
     return [];
   }
 };
+
+// Clear all resume processing data
+export const clearResumeFiles = async (): Promise<void> => {
+  try {
+    // This function doesn't delete from the database
+    // It's meant to be used to clear the local state in the UI
+    console.log('Resume files cleared from UI');
+    return Promise.resolve();
+  } catch (error) {
+    console.error('Error clearing resume files:', error);
+    return Promise.reject(error);
+  }
+};
