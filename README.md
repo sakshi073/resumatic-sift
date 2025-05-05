@@ -42,6 +42,10 @@ A Python Flask application for parsing, analyzing, and comparing resume data.
 - `uploads/` - Directory for uploaded files (created automatically)
 - `exports/` - Directory for exported files (created automatically)
 
+## Documentation
+
+For full documentation and source code, visit our [GitHub repository](https://github.com/sakshi073/resumatic-sift).
+
 ## Notes
 
 This application currently uses mock data for demonstration purposes. In a production environment, you would integrate with actual resume parsing libraries like PyPDF2, pdfminer, or python-docx to extract real data from uploaded files.

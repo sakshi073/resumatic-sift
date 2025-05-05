@@ -56,7 +56,7 @@ const Header = () => {
         </DropdownMenu>
         
         <a 
-          href="https://github.com" 
+          href="https://github.com/sakshi073/resumatic-sift" 
           target="_blank" 
           rel="noopener noreferrer"
           className="text-sm text-primary hover:underline bg-blue-500/10 px-3 py-1 rounded-full transition-colors hover:bg-blue-500/20"
