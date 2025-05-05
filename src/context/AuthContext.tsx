@@ -36,16 +36,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           async (event, session) => {
             console.log("Auth state changed:", event);
             
-            // Clear resume data when user logs in or changes
-            if (event === 'SIGNED_IN') {
-              await clearResumeFiles();
-              toast.success("Welcome back!");
-            }
-            
             // Perform synchronous updates to avoid deadlocks
             setSession(session);
             setUser(session?.user ?? null);
             setIsAuthenticated(!!session);
+            
+            // Clear resume data when user logs in or changes
+            if (event === 'SIGNED_IN') {
+              // Always clear resume files first to ensure a clean state
+              await clearResumeFiles();
+              toast.success("Welcome back!");
+            }
             
             // Defer profile fetching using setTimeout to avoid Supabase deadlocks
             if (session?.user) {

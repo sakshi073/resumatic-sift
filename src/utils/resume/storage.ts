@@ -91,7 +91,11 @@ export const clearResumeFiles = async (): Promise<void> => {
     const clearEvent = new CustomEvent('resume-uploader-clear');
     window.dispatchEvent(clearEvent);
     
-    console.log('Resume files cleared from UI');
+    // Force localStorage cleanup for any saved resume data
+    localStorage.removeItem('resume-upload-history');
+    localStorage.removeItem('resume-filter-state');
+    
+    console.log('Resume files cleared from UI and localStorage');
     return Promise.resolve();
   } catch (error) {
     console.error('Error clearing resume files:', error);

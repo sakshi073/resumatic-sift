@@ -1,5 +1,5 @@
 
-import React, { useRef, DragEvent } from 'react';
+import React, { useRef, DragEvent, useEffect } from 'react';
 import { Upload } from 'lucide-react';
 
 interface FileDropzoneProps {
@@ -13,6 +13,18 @@ const FileDropzone: React.FC<FileDropzoneProps> = ({ onFileChange, disabled = fa
   
   // Use the provided ref or fallback to internal ref
   const inputRef = fileInputRef || internalRef;
+  
+  // Listen for the global clear event
+  useEffect(() => {
+    const handleClearEvent = () => {
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
+    };
+    
+    window.addEventListener('resume-uploader-clear', handleClearEvent);
+    return () => window.removeEventListener('resume-uploader-clear', handleClearEvent);
+  }, [inputRef]);
   
   const handleClick = () => {
     if (!disabled && inputRef.current) {
