@@ -4,6 +4,7 @@ import { User, Session, Provider } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Database } from '@/integrations/supabase/types';
+import { clearResumeFiles } from '@/utils/resume';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -32,8 +33,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         // Set up auth state listener FIRST to avoid missing auth events
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          (event, session) => {
+          async (event, session) => {
             console.log("Auth state changed:", event);
+            
+            // Clear resume data when user logs in or changes
+            if (event === 'SIGNED_IN') {
+              await clearResumeFiles();
+              toast.success("Welcome back!");
+            }
+            
             // Perform synchronous updates to avoid deadlocks
             setSession(session);
             setUser(session?.user ?? null);
@@ -92,7 +100,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toast.error(error.message);
         return { error };
       }
-      toast.success("Successfully logged in!");
       return { error: null };
     } catch (error: any) {
       toast.error('Login failed');
@@ -152,6 +159,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       console.log("Attempting to log out...");
       setLoading(true);
+      
+      // Clear resume data before logging out
+      await clearResumeFiles();
       
       const { error } = await supabase.auth.signOut();
       

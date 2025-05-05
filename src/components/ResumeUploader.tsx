@@ -1,17 +1,16 @@
 
-import React, { useState } from 'react';
-import { toast } from "sonner";
-import { useAuth } from '@/context/AuthContext';
-import { Resume } from '@/utils/resume/types';
-import { processResumeFiles } from '@/utils/resume/upload';
-import FileDropzone from './resume/FileDropzone';
-import SelectedFilesDisplay from './resume/SelectedFilesDisplay';
-import ProcessButton from './resume/ProcessButton';
+import React, { useState, useEffect, useRef } from 'react';
+import { Card } from "@/components/ui/card";
+import FileDropzone from '@/components/resume/FileDropzone';
+import SelectedFilesDisplay from '@/components/resume/SelectedFilesDisplay';
+import ProcessButton from '@/components/resume/ProcessButton';
+import { processResumeFiles, clearResumeFiles } from '@/utils/resume';
+import { toast } from 'sonner';
 
 interface ResumeUploaderProps {
   onUploadComplete: () => void;
   isProcessing: boolean;
-  setIsProcessing: (value: boolean) => void;
+  setIsProcessing: (isProcessing: boolean) => void;
 }
 
 const ResumeUploader: React.FC<ResumeUploaderProps> = ({ 
@@ -19,87 +18,106 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({
   isProcessing, 
   setIsProcessing 
 }) => {
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const { isAuthenticated } = useAuth();
+  const [progress, setProgress] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (files: File[]) => {
-    setSelectedFiles(files);
-  };
+  useEffect(() => {
+    // Listen for the custom clear event
+    const handleClearEvent = () => {
+      setSelectedFiles([]);
+      setProgress(0);
+      // Reset the file input if it exists
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
 
-  const clearFiles = () => {
-    setSelectedFiles([]);
-  };
+    window.addEventListener('resume-uploader-clear', handleClearEvent);
 
-  const handleUpload = async () => {
-    if (!isAuthenticated) {
-      toast("Authentication required", {
-        description: "Please log in to upload resumes."
-      });
-      return;
-    }
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resume-uploader-clear', handleClearEvent);
+    };
+  }, []);
 
+  const handleProcessResumes = async () => {
     if (selectedFiles.length === 0) {
-      toast("No files selected", {
-        description: "Please select at least one resume file to upload."
-      });
+      toast.error('Please select at least one resume file.');
       return;
     }
 
-    setIsProcessing(true);
-    
     try {
-      await processResumeFiles(selectedFiles, setUploadProgress);
-      
-      // Reset progress and provide results
-      setTimeout(() => {
-        setUploadProgress(0);
-        clearFiles(); // Clear selected files after successful processing
-        onUploadComplete();
-        
-        toast("Processing complete", {
-          description: `Successfully processed resumes.`
-        });
-        
-        setIsProcessing(false);
-      }, 1000);
-      
-    } catch (error) {
-      console.error("Error processing resumes:", error);
-      setIsProcessing(false);
-      setUploadProgress(0);
-      
-      toast("Processing failed", {
-        description: "An error occurred while processing the resumes. Please try again."
+      setIsProcessing(true);
+      setProgress(0);
+
+      // Process the files and track progress
+      await processResumeFiles(selectedFiles, (progressPercent) => {
+        setProgress(progressPercent);
       });
+
+      // Clear selected files and notify parent
+      setSelectedFiles([]);
+      onUploadComplete();
+      
+      // Reset the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      toast.success(`Successfully processed ${selectedFiles.length} resume(s)`);
+    } catch (error) {
+      console.error('Error processing resumes:', error);
+      toast.error('Failed to process resumes. Please try again.');
+    } finally {
+      setIsProcessing(false);
+      setProgress(0);
+    }
+  };
+
+  const handleClearFiles = async () => {
+    try {
+      await clearResumeFiles();
+      setSelectedFiles([]);
+      setProgress(0);
+      // Reset the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      toast.success('Resume processing data cleared');
+    } catch (error) {
+      console.error('Error clearing files:', error);
+      toast.error('Failed to clear resume data');
+    }
+  };
+
+  const handleFileChange = (files: FileList | null) => {
+    if (files) {
+      setSelectedFiles(Array.from(files));
     }
   };
 
   return (
-    <div className="w-full animate-fade-up">
-      <FileDropzone
-        isProcessing={isProcessing}
-        isAuthenticated={isAuthenticated}
-        onFileSelect={handleFileSelect}
-        selectedFiles={selectedFiles}
-        onClearFiles={clearFiles}
-      />
-      
-      {selectedFiles.length > 0 && (
-        <div className="mt-6 flex flex-col items-center">
-          <SelectedFilesDisplay files={selectedFiles} />
-          
-          <div className="mt-4">
-            <ProcessButton
-              onClick={handleUpload}
-              disabled={selectedFiles.length === 0 || isProcessing || !isAuthenticated}
-              isProcessing={isProcessing}
-              progress={uploadProgress}
-            />
-          </div>
-        </div>
-      )}
-    </div>
+    <Card className="p-6">
+      <div className="space-y-6">
+        <FileDropzone 
+          onFileChange={handleFileChange} 
+          disabled={isProcessing}
+          fileInputRef={fileInputRef}
+        />
+        
+        <SelectedFilesDisplay files={selectedFiles} />
+        
+        <ProcessButton 
+          onClick={handleProcessResumes}
+          disabled={selectedFiles.length === 0 || isProcessing}
+          isProcessing={isProcessing}
+          progress={progress}
+          onClear={handleClearFiles}
+          showClearButton={selectedFiles.length > 0 || isProcessing}
+        />
+      </div>
+    </Card>
   );
 };
 

@@ -45,9 +45,18 @@ export const saveResumeToSupabase = async (resume: Resume): Promise<string> => {
 // Fetch resumes from Supabase
 export const fetchResumesFromSupabase = async (): Promise<Resume[]> => {
   try {
+    // Get current user ID to only retrieve their resumes
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.log('No authenticated user found, returning empty resume list');
+      return [];
+    }
+    
     const { data, error } = await supabase
       .from('resumes')
-      .select('*');
+      .select('*')
+      .eq('user_id', user.id);
 
     if (error) throw error;
     
@@ -74,8 +83,14 @@ export const fetchResumesFromSupabase = async (): Promise<Resume[]> => {
 // Clear all resume processing data
 export const clearResumeFiles = async (): Promise<void> => {
   try {
+    console.log('Clearing resume uploader state...');
+    
     // This function doesn't delete from the database
     // It's meant to be used to clear the local state in the UI
+    // We'll publish a custom event that components can listen for
+    const clearEvent = new CustomEvent('resume-uploader-clear');
+    window.dispatchEvent(clearEvent);
+    
     console.log('Resume files cleared from UI');
     return Promise.resolve();
   } catch (error) {
